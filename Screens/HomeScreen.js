@@ -9,7 +9,7 @@ import Ashley from './Home/Ashley';
 import InterestInterim from './Home/Interims/InterestInterim';
 import { SkillIcon } from '../assets/App-assets/Icons/SkillIcon';
 import HomeModal from '../assets/App-assets/Modals/HomeModal';
-import SliderNodes from '../assets/App-assets/Nodes/sliderNodes';
+//import SliderNodes from '../assets/App-assets/Nodes/sliderNodes';
 
 const DimData = Dimensions.get("window")
 
@@ -49,14 +49,12 @@ export default class HomeScreen extends Component{
                 business:'green',
                 currentColour: AppStyles.page_colour.sapphire,
                 newColour: 'red',
-                currentValue: 1,
+                currentValue: 0,
             },
             homeModalVisible: false,
             DarkMode: false,
-            slider:{
-                previousJobIndex: 0,
-                nextJobIndex: 1,
-                currentJobIndex: 0,
+            experienceSlider:{
+                currentJobIndex:0
             }
         };
         this.scrollViewExperienceRef= React.createRef();
@@ -119,26 +117,23 @@ export default class HomeScreen extends Component{
             </View>
         )
     }
-    updateSlider(tag){
-        let minJobAmount = 0
-        let maxJobAmount = 5
-        let currentSliderIndex = (tag == "BEFORE") ? this.state.slider.currentJobIndex - 1 : this.state.slider.currentJobIndex + 1
-        currentSliderIndex = Math.max(Math.min(currentSliderIndex, minJobAmount), maxJobAmount)
+
+    /*
+        setState is asynchronous
+        Change page within the callback of setState
+        This maintains synchronisation when moving between pages
+        Won't have cases where you are on page 1 but the code still thinks you are on page 0
+    */
+    updateExperienceSlider = (tag) =>{
+        let page = (tag=="+") ? 1 : -1
         this.setState({
-            slider:{currentJobIndex: currentSliderIndex}
-        })
-        console.log(this.state.slider)
-
-        
-    }
-
-    generateNodes(){
-        console.log(this.jobFields)
-        for(let index=0; index<this.jobFields.length-1; index++){
-            this.jobNodes.push(new SliderNodes({nextSlider:this.jobFields[index], previousSlider:this.jobFields[index+1]}))
-        }
-        // console.log("NODES")
-        // console.log(this.jobNodes)
+            experienceSlider:{currentJobIndex: Math.min(Math.max(0, (this.state.experienceSlider.currentJobIndex+page)), 5)}
+        }, () => 
+            this.scrollViewExperienceRef.current.scrollTo({
+            x: this.props.experienceData[this.state.experienceSlider.currentJobIndex].x,
+            animated: true
+            })
+        )
     }
 
     //SKILL METHODS
@@ -381,32 +376,26 @@ export default class HomeScreen extends Component{
                                 <View style={HomeStyle.ExperienceJobSliderArea}>
                                     <View style={HomeStyle.ExperienceJobSlider}>
                                         <TouchableOpacity style={HomeStyle.ExperienceJobSwitchButton}
-                                            onLayout={event => this.JobSwitchButton = event.nativeEvent.layout}>
+                                            onLayout={event => this.JobSwitchButton = event.nativeEvent.layout}
+                                            onPress={() => [this.updateExperienceSlider("-")]}>
                                             <Text>Previous</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity style={HomeStyle.ExperienceJobListTitleArea}>
                                             <View style={HomeStyle.ExperienceJobListTitle}><Text>Job List</Text></View>
                                             <View style={HomeStyle.ExperienceJobListTitleButton}><Text>{`>`}</Text></View>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={HomeStyle.ExperienceJobSwitchButton} onPress={() => [this.updateSlider("AFTER"),this.scrollViewExperienceRef.current.scrollTo({
-                                            x: (this.state.slider.currentJobIndex == 0) ? this.jobOneField.x : 
-                                            (this.state.slider.currentJobIndex == 1) ? this.jobTwoField.x :
-                                            (this.state.slider.currentJobIndex == 2) ? this.jobThreeField.x : 
-                                            (this.state.slider.currentJobIndex == 3) ? this.jobFourField.x :
-                                            this.jobFiveField,
-                                            animated: true
-                                        })]}>
+                                        <TouchableOpacity style={HomeStyle.ExperienceJobSwitchButton} onPress={() => [this.updateExperienceSlider("+")]}>
                                             <Text>Next</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                                <ScrollView horizontal ref={this.scrollViewExperienceRef} pagingEnabled={true} showsHorizontalScrollIndicator={false} scrollEventThrottle={1}>
+                                <ScrollView horizontal ref={this.scrollViewExperienceRef} pagingEnabled={true} showsHorizontalScrollIndicator={false} scrollEventThrottle={1} scrollEnabled={false}>
                                     {this.getExperienceTemplate(this.jobOneField)}
                                     {this.getExperienceTemplate(this.jobTwoField)}
                                     {this.getExperienceTemplate(this.jobThreeField)}
                                     {this.getExperienceTemplate(this.jobFourField)}
                                     {this.getExperienceTemplate(this.jobFiveField)}
-                                    {this.generateNodes()}
+                                    {/* {this.generateNodes()} */}
                                     <View style={HomeStyle.ExperienceViewArea}
                                     onLayout={event => this.jobTwoField = event.nativeEvent.layout}
                                     >
@@ -593,7 +582,7 @@ const HomeStyle = StyleSheet.create({
     ExperienceViewArea:{
         backgroundColor:'orange',
         width: DimData.width,
-        height:'80%',
+        height:'100%',
         justifyContent:'center',
         alignItems:'center'
     },
