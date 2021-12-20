@@ -1,0 +1,11 @@
+{
+    "Interests":[
+        {"name": "Helping others", "imageLocation": ""},
+        {"name": "Problem-solving", "imageLocation": ""},
+        {"name": "Programming", "imageLocation": ""},
+        {"name": "Learning", "imageLocation": ""},
+        {"name": "Exercise & Sports", "imageLocation": ""},
+        {"name": "Communicating", "imageLocation": ""},
+        {"name": "Gaming", "imageLocation": ""},
+        {"name": "Adventuring", "imageLocation": ""}
+]}
