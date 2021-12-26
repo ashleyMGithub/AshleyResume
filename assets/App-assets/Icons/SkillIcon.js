@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
-export function SkillIcon(customStyle=undefined){
+export function SkillIcon(customStyle=undefined, caption){
     let chosenStyle = (customStyle==undefined) ? styles : customStyle
     let ElementKey = Math.random().toString()
     return(
@@ -12,7 +12,7 @@ export function SkillIcon(customStyle=undefined){
                 </View>
             </View>
             <View style={styles.SkillIconCanvasTextArea}>
-                <Text>Testing skill icon</Text>
+                <Text adjustsFontSizeToFit>{caption}</Text>
             </View>
         </View>
     )

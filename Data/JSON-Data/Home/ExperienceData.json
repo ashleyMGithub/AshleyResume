@@ -1,0 +1,35 @@
+{
+    "Technical-Experience":[
+        {"skill_name": "Programming" , "image_location": "", "clickable": true},
+        {"skill_name": "Web Development" , "image_location": "", "clickable": true},
+        {"skill_name": "Software Engineering" , "image_location": "", "clickable": true},
+        {"skill_name": "Data Structures" , "image_location": "", "clickable": true},
+        {"skill_name": "Testing" , "image_location": "", "clickable": true},
+        {"skill_name": "Algorithm Design" , "image_location": "", "clickable": false},
+        {"skill_name": "Mobile Development" , "image_location": "", "clickable": true},
+        {"skill_name": "Big Data" , "image_location": "", "clickable": false},
+        {"skill_name": "Cloud Systems" , "image_location": "", "clickable": true}
+    ],
+    "People-Experience":[
+        {"skill_name": "Communicative" , "image_location": "", "clickable": false},
+        {"skill_name": "Quick Learner" , "image_location": "", "clickable": false},
+        {"skill_name": "Problem-Solving" , "image_location": "", "clickable": false},
+        {"skill_name": "Data Structures" , "image_location": "", "clickable": false},
+        {"skill_name": "Report Writing" , "image_location": "", "clickable": false},
+        {"skill_name": "Leadership" , "image_location": "", "clickable": false},
+        {"skill_name": "Organised" , "image_location": "", "clickable": false},
+        {"skill_name": "Insightful" , "image_location": "", "clickable": false},
+        {"skill_name": "Patience" , "image_location": "", "clickable": false}
+    ],
+    "Business-Experience":[
+        {"skill_name": "Mathematics" , "image_location": "", "clickable": false},
+        {"skill_name": "Data Analysis" , "image_location": "", "clickable": false},
+        {"skill_name": "Time Management" , "image_location": "", "clickable": false},
+        {"skill_name": "Data Structures" , "image_location": "", "clickable": false},
+        {"skill_name": "Report Writing" , "image_location": "", "clickable": false},
+        {"skill_name": "Leadership" , "image_location": "", "clickable": false},
+        {"skill_name": "Organised" , "image_location": "", "clickable": false},
+        {"skill_name": "Insightful" , "image_location": "", "clickable": false},
+        {"skill_name": "Patience" , "image_location": "", "clickable": false}
+    ]
+}

@@ -28,6 +28,11 @@ const SkillData = require('../Data/JSON-Data/Home/SkillTabData.json')
 //import Template data
 const TemplateData = require('../assets/App-assets/Templates')
 
+//import Experience data
+const ExperienceInfo = require('../Data/JSON-Data/Home/ExperienceData.json')
+
+const JSON_Experience_Tag = "-Experience"
+
 var currentSkillTab = 'technical'
 
 
@@ -189,21 +194,22 @@ export default class HomeScreen extends Component{
         currentSkillTab = keyProp
     }
 
-    createSkillRows(data = undefined, title=""){
+    createSkillRows(data = undefined, title="", skillIndex=0){
         let view = []
         let skillRowsInterim = 2
         let offset=1
-        view.push(this.getSkillRow(false, undefined, (title+0)))
-        for(let index=0; index<skillRowsInterim; index++){
-            view.push(this.getSkillRow(false, undefined, (title+(index+offset))))
+        view.push(this.getSkillRow(false, undefined, (title+0), skillIndex, title))
+        skillIndex = 3
+        for(let index=0; index<skillRowsInterim; index++, skillIndex+=3){
+            view.push(this.getSkillRow(false, undefined, (title+(index+offset)), skillIndex, title))
         }
         //view.push(this.getSkillRow(true, undefined, (title+skillRowsInterim+offset), "Press the buttons for more info"))
         return view
     }
 
-    getSkillRow(last=false, data=undefined, ElementKey="", Caption=""){
+    getSkillRow(last=false, data=undefined, ElementKey="", skillIndex, title){
        let skillStyle = (last==false) ? HomeStyle.SE_SkillSection_Row : [HomeStyle.SE_SkillSection_Row, {borderBottomWidth:0, justifyContent:'center', alignItems:'center', height: '10%'}]
-       let rowInput = (Caption=="") ? this.getRowInfo() : <Text>{Caption}</Text>
+       let rowInput = this.getRowInfo(skillIndex, title)
        return(
            <View style={skillStyle} key={ElementKey}>
                {rowInput}
@@ -211,11 +217,11 @@ export default class HomeScreen extends Component{
        )
     }
 
-    getRowInfo(){
+    getRowInfo(skillIndex, title){
         const info_amount = 3;
         let view = []
-        for(let index=0; index<info_amount; index++){
-            view.push(SkillIcon())
+        for(let index=0; index<info_amount; index++, skillIndex++){
+            view.push(SkillIcon(undefined, ExperienceInfo[title+JSON_Experience_Tag][skillIndex].skill_name))
         }
         return view
     }
@@ -750,8 +756,8 @@ const HomeStyle = StyleSheet.create({
     },
     SE_Container_Skills_Area_SkillSection:{
         backgroundColor: AppStyles.page_colour.ghost_white,
-        height:'90%',
-        width:'70%',
+        height:'100%',
+        width:'90%',
         borderRadius: 10,
         shadowColor: AppStyles.page_colour.black,
         shadowOffset:{
