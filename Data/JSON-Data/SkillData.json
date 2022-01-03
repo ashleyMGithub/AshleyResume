@@ -1,0 +1,12 @@
+{
+    "Languages":[
+        {"language": "Java", "imageLocation": "../assets/Images/JavaLogo.png", "experience": "5 years"},
+        {"language": "Python", "imageLocation": "../assets/Images/PythonLogo.png", "experience": "3 years"},
+        {"language": "C#", "imageLocation": "../assets/Images/CSharpLogo.png", "experience": "2 years"},
+        {"language": "JavaScript", "imageLocation": "../assets/Images/JavaScriptLogo.png", "experience": "3 years"},
+        {"language": "HTML", "imageLocation": "../assets/Images/HTMLLogo.png", "experience": "1 year"},
+        {"language": "CSS", "imageLocation": "../assets/Images/CSSLogo.png", "experience": "1 year"},
+        {"language": "C++", "imageLocation": "../assets/Images/CplusplusLogo.png", "experience": "3 months"},
+        {"language": "C", "imageLocation": "../assets/Images/CLogo.png", "experience": "3 months"}
+    ]
+}

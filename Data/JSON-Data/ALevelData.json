@@ -1,0 +1,7 @@
+{
+    "A_Levels":[
+        {"subject": "Mathematics" , "image": "", "grade": "B"},
+        {"subject": "ICT" , "image": "", "grade": "Distinction* (A*)"},
+        {"subject": "Sociology" , "image": "", "grade": "B"}
+    ]
+}

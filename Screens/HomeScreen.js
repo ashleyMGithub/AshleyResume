@@ -9,7 +9,7 @@ import Ashley from './Home/Ashley';
 import InterestInterim from './Home/Interims/InterestInterim';
 import { SkillIcon } from '../assets/App-assets/Icons/SkillIcon';
 import HomeModal from '../assets/App-assets/Modals/HomeModal';
-import SliderNodes from '../assets/App-assets/Nodes/sliderNodes';
+//import SliderNodes from '../assets/App-assets/Nodes/sliderNodes';
 
 const DimData = Dimensions.get("window")
 
@@ -43,23 +43,29 @@ export default class HomeScreen extends Component{
             },
             color_chosen:'white',
             colour_animation: new Animated.Value(0),
+            Education_Value: new Animated.Value(1),
+            Skills_Value: new Animated.Value(0),
+            SE_Slider:{
+                Index: 'EDUCATION',
+                Education_Value: new Animated.Value(1),
+                Skills_Value: new Animated.Value(0),
+            },
             skillColour:{
                 technical: AppStyles.page_colour.sapphire,
                 people:'blue',
                 business:'green',
                 currentColour: AppStyles.page_colour.sapphire,
                 newColour: 'red',
-                currentValue: 1,
+                currentValue: 0,
             },
             homeModalVisible: false,
             DarkMode: false,
-            slider:{
-                previousJobIndex: 0,
-                nextJobIndex: 1,
-                currentJobIndex: 0,
+            experienceSlider:{
+                currentJobIndex:0
             }
         };
         this.scrollViewExperienceRef= React.createRef();
+        this.scrollViewSERef= React.createRef();
         this.jobOneField= React.createRef();
         this.jobTwoField= React.createRef();
         this.jobThreeField= React.createRef();
@@ -119,29 +125,25 @@ export default class HomeScreen extends Component{
             </View>
         )
     }
-    updateSlider(tag){
-        let minJobAmount = 0
-        let maxJobAmount = 5
-        let currentSliderIndex = (tag == "BEFORE") ? this.state.slider.currentJobIndex - 1 : this.state.slider.currentJobIndex + 1
-        currentSliderIndex = Math.max(Math.min(currentSliderIndex, minJobAmount), maxJobAmount)
+
+    /*
+        setState is asynchronous
+        Change page within the callback of setState
+        This maintains synchronisation when moving between pages
+        Won't have cases where you are on page 1 but the code still thinks you are on page 0
+    */
+    updateExperienceSlider = (tag) =>{
+        let page = (tag=="+") ? 1 : -1
         this.setState({
-            slider:{currentJobIndex: currentSliderIndex}
-        })
-        console.log(this.state.slider)
-
-        
+            experienceSlider:{currentJobIndex: Math.min(Math.max(0, (this.state.experienceSlider.currentJobIndex+page)), 5)}
+        }, () => 
+            this.scrollViewExperienceRef.current.scrollTo({
+            x: this.props.experienceData[this.state.experienceSlider.currentJobIndex].x,
+            animated: true
+            })
+        )
     }
 
-    generateNodes(){
-        console.log(this.jobFields)
-        for(let index=0; index<this.jobFields.length-1; index++){
-            this.jobNodes.push(new SliderNodes({nextSlider:this.jobFields[index], previousSlider:this.jobFields[index+1]}))
-        }
-        // console.log("NODES")
-        // console.log(this.jobNodes)
-    }
-
-    //SKILL METHODS
     selectSkillTab(keyProp){
         this.setSkillTab(keyProp)
         console.log(this.state.skillTab)
@@ -154,6 +156,37 @@ export default class HomeScreen extends Component{
                 business:{backgroundColor:("business"==keyProp) ? 'white' : 'grey'},
             },
         })
+    }
+
+    setSEIndex(tag){
+        if(tag=="SKILLS"){
+            Animated.sequence([
+                Animated.timing(this.state.Skills_Value, {
+                    toValue: 1,
+                    useNativeDriver: true,
+                    duration: 100,
+                }),
+                Animated.timing(this.state.Education_Value,{
+                    toValue: 0,
+                    useNativeDriver: true,
+                    duration: 100,
+                })
+            ]).start()
+        }else{
+            Animated.sequence([
+                Animated.timing(this.state.Education_Value, {
+                    toValue: 1,
+                    useNativeDriver: true,
+                    duration: 100,
+                }),
+                Animated.timing(this.state.Skills_Value,{
+                    toValue: 0,
+                    useNativeDriver: true,
+                    duration: 100,
+                })
+            ]).start()
+        }
+       
     }
     
     setTabColour(keyProp){
@@ -274,6 +307,7 @@ export default class HomeScreen extends Component{
         const animatedStyle = {
             backgroundColor: testColour
         }
+        console.log(this)
         return(
             <View style={AppStyles.styles.container}>
                 <SafeAreaView style={AppStyles.styles.HomePage}>
@@ -381,32 +415,26 @@ export default class HomeScreen extends Component{
                                 <View style={HomeStyle.ExperienceJobSliderArea}>
                                     <View style={HomeStyle.ExperienceJobSlider}>
                                         <TouchableOpacity style={HomeStyle.ExperienceJobSwitchButton}
-                                            onLayout={event => this.JobSwitchButton = event.nativeEvent.layout}>
+                                            onLayout={event => this.JobSwitchButton = event.nativeEvent.layout}
+                                            onPress={() => [this.updateExperienceSlider("-")]}>
                                             <Text>Previous</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity style={HomeStyle.ExperienceJobListTitleArea}>
                                             <View style={HomeStyle.ExperienceJobListTitle}><Text>Job List</Text></View>
                                             <View style={HomeStyle.ExperienceJobListTitleButton}><Text>{`>`}</Text></View>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={HomeStyle.ExperienceJobSwitchButton} onPress={() => [this.updateSlider("AFTER"),this.scrollViewExperienceRef.current.scrollTo({
-                                            x: (this.state.slider.currentJobIndex == 0) ? this.jobOneField.x : 
-                                            (this.state.slider.currentJobIndex == 1) ? this.jobTwoField.x :
-                                            (this.state.slider.currentJobIndex == 2) ? this.jobThreeField.x : 
-                                            (this.state.slider.currentJobIndex == 3) ? this.jobFourField.x :
-                                            this.jobFiveField,
-                                            animated: true
-                                        })]}>
+                                        <TouchableOpacity style={HomeStyle.ExperienceJobSwitchButton} onPress={() => [this.updateExperienceSlider("+")]}>
                                             <Text>Next</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                                <ScrollView horizontal ref={this.scrollViewExperienceRef} pagingEnabled={true} showsHorizontalScrollIndicator={false} scrollEventThrottle={1}>
+                                <ScrollView horizontal ref={this.scrollViewExperienceRef} pagingEnabled={true} showsHorizontalScrollIndicator={false} scrollEventThrottle={1} scrollEnabled={false}>
                                     {this.getExperienceTemplate(this.jobOneField)}
                                     {this.getExperienceTemplate(this.jobTwoField)}
                                     {this.getExperienceTemplate(this.jobThreeField)}
                                     {this.getExperienceTemplate(this.jobFourField)}
                                     {this.getExperienceTemplate(this.jobFiveField)}
-                                    {this.generateNodes()}
+                                    {/* {this.generateNodes()} */}
                                     <View style={HomeStyle.ExperienceViewArea}
                                     onLayout={event => this.jobTwoField = event.nativeEvent.layout}
                                     >
@@ -417,9 +445,41 @@ export default class HomeScreen extends Component{
                         </View>
                         <View style={AppStyles.styles.HomeSector}
                         onLayout={event => this.ContactField = event.nativeEvent.layout}>
-                            <Animated.View style={[HomeStyle.ContactContainer, {backgroundColor: animatedStyle.backgroundColor.backgroundColor}]}>
-                                <TouchableOpacity style={HomeStyle.testButton} onPress={() => this.skillColourChange("people", 1)}><Text>shshs</Text></TouchableOpacity>
-                            </Animated.View>
+                            <View style={HomeStyle.ContactContainer}>
+                                <View style={HomeStyle.SE_Toggle_Area}>
+                                    <TouchableOpacity style={HomeStyle.SE_Toggle_Button} onPress={() => {[this.setSEIndex("EDUCATION"),
+                                        this.scrollViewSERef.current.scrollTo({
+                                        x: 0,
+                                        animated: true
+                                    })]}}>
+                                        <View style={HomeStyle.SE_Toggle_Button_Title}>
+                                            <Text>Education</Text>
+                                        </View>
+                                        <Animated.View style={[HomeStyle.SE_Toggle_Button_Indicator,
+                                        {opacity: this.state.Education_Value.interpolate({inputRange:[0, 1], outputRange:[0, 1]})}]}/>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={HomeStyle.SE_Toggle_Button} onPress={() => {[this.setSEIndex("SKILLS"), this.scrollViewSERef.current.scrollTo({
+                                        x: this.SkillsPageField.x,
+                                        animated: true
+                                    })]}}>
+                                        <View style={HomeStyle.SE_Toggle_Button_Title}>
+                                            <Text>Skills</Text>
+                                        </View>
+                                        <Animated.View style={[HomeStyle.SE_Toggle_Button_Indicator,{opacity: this.state.Skills_Value.interpolate({
+                                            inputRange:[0, 1],
+                                            outputRange:[0, 1]
+                                        })}]}/>
+                                    </TouchableOpacity>
+                                </View>
+                                <ScrollView horizontal pagingEnabled={true} showsHorizontalScrollIndicator={false} ref={this.scrollViewSERef}>
+                                    <View style={HomeStyle.SE_Page} onLayout={event => this.EducationPageField = event.nativeEvent.layout}>
+                                        <Text>Job 1</Text>
+                                    </View>
+                                    <View style={HomeStyle.SE_Page} onLayout={event => this.SkillsPageField = event.nativeEvent.layout}>
+                                        <TouchableOpacity style={{height:'20%', width:'50%', backgroundColor:'pink'}} onPress={() => this.props.navigation.navigate("SkillsEducation")}><Text>hasjjhs</Text></TouchableOpacity>
+                                    </View>
+                                </ScrollView>
+                            </View>
                         </View>
                     </ScrollView>
                     <SafeAreaView style={[AppStyles.styles.MenuBar]}
@@ -593,7 +653,7 @@ const HomeStyle = StyleSheet.create({
     ExperienceViewArea:{
         backgroundColor:'orange',
         width: DimData.width,
-        height:'80%',
+        height:'100%',
         justifyContent:'center',
         alignItems:'center'
     },
@@ -785,14 +845,43 @@ const HomeStyle = StyleSheet.create({
     ContactContainer:{
         height: (DimData.height - StatusBar.currentHeight) - (DimData.height*0.075*2),
         width:'100%',
-        justifyContent:'center',
+        justifyContent:'flex-start',
         alignItems:'center',
+        backgroundColor:'red',
     },
-    testButton:{
+    SE_Toggle_Area:{
+        alignItems:'flex-start',
+        backgroundColor:'pink',
+        height:'10%',
+        width: '100%',
+        flexDirection:'row'
+    },
+    SE_Toggle_Button:{
         alignItems:'center',
         justifyContent: 'center',
-        backgroundColor:'pink',
-        height:'20%',
-        width: '50%'
+        backgroundColor:'white',
+        height:'100%',
+        width: '50%',
     },
+    SE_Toggle_Button_Indicator:{
+        backgroundColor:'black',
+        width:'80%',
+        height:'10%',
+        borderRadius: 10,
+        marginBottom:'5%'
+    },
+    SE_Toggle_Button_Title:{
+        backgroundColor:'white',
+        width:'100%',
+        height:'80%',
+        alignItems:'center',
+        justifyContent:'center',
+        paddingTop: '5%'
+    },
+    SE_Page:{
+       height:'100%',
+       width: DimData.width,
+       justifyContent:'center',
+       alignItems:'center' 
+    }
 })

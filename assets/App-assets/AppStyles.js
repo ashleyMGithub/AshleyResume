@@ -17,7 +17,8 @@ const page_colour={
     mild_dark_peach: "#CE8600",
     mild_peach: "#E99A65",
     brown: "#734414",
-    dark_brown: "#381E0E"
+    dark_brown: "#381E0E",
+    midnight_blue: "#191970",
 }
 
 const buttonWidth=1.5;

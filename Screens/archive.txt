@@ -1,0 +1,89 @@
+{/* <View style={SEStyles.SE_DetailsArea}>
+    <View style={SEStyles.SE_DegreeArea}>
+        <Text style={SEStyles.SE_DegreeTitle}>BSc Computer Science with Industrial Experience - First Class</Text>
+    </View>
+    <View style={SEStyles.SE_YearsArea}>
+        <TouchableOpacity style={(1 == this.state.current_module_year) ? SEStyles.SE_YearButton_ON : SEStyles.SE_YearButton_OFF} onPress={() => this.setModuleYear(1, this.yearOneField)}><Text>Year 1</Text></TouchableOpacity>
+        <TouchableOpacity style={(2 == this.state.current_module_year) ? SEStyles.SE_YearButton_ON : SEStyles.SE_YearButton_OFF} onPress={() => this.setModuleYear(2, this.yearTwoField)}><Text>Year 2</Text></TouchableOpacity>
+        <TouchableOpacity style={(3 == this.state.current_module_year) ? SEStyles.SE_YearButton_ON : SEStyles.SE_YearButton_OFF} onPress={() => this.setModuleYear(3, this.yearThreeField)}><Text>Year 3</Text></TouchableOpacity>
+        <TouchableOpacity style={(4 == this.state.current_module_year) ? SEStyles.SE_YearButton_ON : SEStyles.SE_YearButton_OFF} onPress={() => this.setModuleYear(4, this.yearFourField)}><Text>Year 4</Text></TouchableOpacity>
+    </View>
+    <View style={SEStyles.SE_ModulesArea}>
+        {/* <ScrollView scrollEnabled={false} ref={this.scrollViewModuleRef} horizontal={true}>
+            <View style={[SEStyles.SE_ModulePage, {backgroundColor:'yellow'}]} onLayout={event => this.yearOneField = event.nativeEvent.layout}><Text>Year 1</Text></View>
+            <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearTwoField = event.nativeEvent.layout}><Text>Year 2</Text></View>
+            <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearThreeField = event.nativeEvent.layout}><Text>Year 3</Text></View>
+            <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearFourField = event.nativeEvent.layout}><Text>Year 4</Text></View>
+        </ScrollView> }
+        <View style={{height:'100%', width:'100%'}}>
+            <View style={SEStyles.SE_ModulesAreaTitle}>
+                <Text style={SEStyles.SE_ModulesTitle}>Modules</Text>
+            </View>
+            <ScrollView scrollEnabled={false} ref={this.scrollViewModuleRef} horizontal={true}>
+                <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearOneField = event.nativeEvent.layout}>
+                    <View style={SEStyles.SE_DefaultModuleLayout}>
+                        {this.createModuleTables("PROGRAMMING", 8)}
+                    </View>
+                </View>
+                <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearTwoField = event.nativeEvent.layout}>
+                    <View style={SEStyles.SE_DefaultModuleLayout}>
+                        {this.createModuleTables("BIG DATA", 8)}
+                    </View>
+                </View>
+                <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearThreeField = event.nativeEvent.layout}><Text>Year 3</Text></View>
+                <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearFourField = event.nativeEvent.layout}><Text>Year 4</Text></View>
+            </ScrollView> 
+            <View style={SEStyles.SE_ModulesAreaTitle}>
+                <Text style={SEStyles.SE_ModulesTitle}>A Levels</Text>
+            </View>
+            <View styles={SEStyles.SE_A_Level_Area}>
+
+            </View>
+        </View>
+    </View>
+</View> */}
+<ScrollView contentContainerStyle={{flex:1}} bounces={false}>
+                                    <View style={{width:'100%', height:'15%'}}>
+
+                                    </View>
+                                    <View style={{width:DimData.width, height:DimData.height}}>
+                                        <View style={SEStyles.SE_DetailsArea}>
+                                            <View style={SEStyles.SE_DegreeArea}>
+                                                <Text style={SEStyles.SE_DegreeTitle}>BSc Computer Science with Industrial Experience - First Class</Text>
+                                            </View>
+                                            <View style={SEStyles.SE_YearsArea}>
+                                                <TouchableOpacity style={(1 == this.state.current_module_year) ? SEStyles.SE_YearButton_ON : SEStyles.SE_YearButton_OFF} onPress={() => this.setModuleYear(1, this.yearOneField)}><Text>Year 1</Text></TouchableOpacity>
+                                                <TouchableOpacity style={(2 == this.state.current_module_year) ? SEStyles.SE_YearButton_ON : SEStyles.SE_YearButton_OFF} onPress={() => this.setModuleYear(2, this.yearTwoField)}><Text>Year 2</Text></TouchableOpacity>
+                                                <TouchableOpacity style={(3 == this.state.current_module_year) ? SEStyles.SE_YearButton_ON : SEStyles.SE_YearButton_OFF} onPress={() => this.setModuleYear(3, this.yearThreeField)}><Text>Year 3</Text></TouchableOpacity>
+                                                <TouchableOpacity style={(4 == this.state.current_module_year) ? SEStyles.SE_YearButton_ON : SEStyles.SE_YearButton_OFF} onPress={() => this.setModuleYear(4, this.yearFourField)}><Text>Year 4</Text></TouchableOpacity>
+                                            </View>
+                                            <View style={SEStyles.SE_ModulesAreaTitle}>
+                                                <Text style={SEStyles.SE_ModulesTitle}>Modules</Text>
+                                            </View>
+                                            <View style={SEStyles.SE_ModulesArea}>
+                                                <View style={{height:'100%', width:'100%'}}>
+                                                    <ScrollView scrollEnabled={false} ref={this.scrollViewModuleRef} horizontal={true}>
+                                                        <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearOneField = event.nativeEvent.layout}>
+                                                            <View style={SEStyles.SE_DefaultModuleLayout}>
+                                                                {this.createModuleTables("PROGRAMMING", 8)}
+                                                            </View>
+                                                        </View>
+                                                        <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearTwoField = event.nativeEvent.layout}>
+                                                            <View style={SEStyles.SE_DefaultModuleLayout}>
+                                                                {this.createModuleTables("BIG DATA", 8)}
+                                                            </View>
+                                                        </View>
+                                                        <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearThreeField = event.nativeEvent.layout}><Text>Year 3</Text></View>
+                                                        <View style={SEStyles.SE_ModulePage} onLayout={event => this.yearFourField = event.nativeEvent.layout}><Text>Year 4</Text></View>
+                                                    </ScrollView> 
+                                                </View>
+                                            </View>
+                                            <View style={SEStyles.SE_A_LevelAreaTitle}>
+                                                <Text style={SEStyles.SE_ModulesTitle}>A Levels</Text>
+                                            </View>
+                                            <View style={SEStyles.SE_A_Level_Area}>
+                                                {this.createALevelArea()}
+                                            </View>
+                                        </View>
+                                    </View>
+                                </ScrollView>
